@@ -1,4 +1,4 @@
-specVersion: 0.0.1
+specVersion: 0.0.2
 schema:
   file: ./schema.graphql
 dataSources:
@@ -10,7 +10,7 @@ dataSources:
       abi: QNFT
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.2
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - AddFreeAllocation
@@ -71,4 +71,127 @@ dataSources:
           handler: handleUpgradeNftImage
         - event: WithdrawQstk(indexed address,uint256)
           handler: handleWithdrawQstk
-      file: ./src/mapping.ts
+      file: ./src/QNFTMapping.ts
+  - kind: ethereum/contract
+    name: QStk
+    network: ropsten
+    source:
+      address: "0xf1452Ef2E9D7bcA3419AadB5CcC354c7fC16e7B1"
+      abi: QStk
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - AddBlacklistedUser
+        - Approval
+        - OwnershipTransferred
+        - Paused
+        - RemoveBlacklistedUser
+        - RoleAdminChanged
+        - RoleGranted
+        - RoleRevoked
+        - Transfer
+        - Unpaused
+      abis:
+        - name: QStk
+          file: ./abis/QStk.json
+      eventHandlers:
+        - event: AddBlacklistedUser(indexed address)
+          handler: handleAddBlacklistedUser
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Paused(address)
+          handler: handlePaused
+        - event: RemoveBlacklistedUser(indexed address)
+          handler: handleRemoveBlacklistedUser
+        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
+          handler: handleRoleAdminChanged
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleRevoked
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: Unpaused(address)
+          handler: handleUnpaused
+      file: ./src/QStkMapping.ts
+  - kind: ethereum/contract
+    name: QNFTGov
+    network: ropsten
+    source:
+      address: "0x0376bD1b4804de2265E39acf7ddA1f9acee78b89"
+      abi: QNFTGov
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - OwnershipTransferred
+        - SafeWithdraw
+        - VoteGovernanceAddress
+        - WithdrawToGovernanceAddress
+      abis:
+        - name: QNFTGov
+          file: ./abis/QNFTGov.json
+      eventHandlers:
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: SafeWithdraw(indexed address,indexed address,uint256)
+          handler: handleSafeWithdraw
+        - event: VoteGovernanceAddress(indexed address,indexed address,uint256)
+          handler: handleVoteGovernanceAddress
+        - event: WithdrawToGovernanceAddress(indexed address,indexed address,uint256)
+          handler: handleWithdrawToGovernanceAddress
+      file: ./src/QNFTGovMapping.ts
+  - kind: ethereum/contract
+    name: QNFTSettings
+    network: ropsten
+    source:
+      address: "0x295E1EeA6A5690eaAe60Fddd2a3239e4523f33A7"
+      abi: QNFTSettings
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - AddBgImages
+        - AddFavCoins
+        - AddImageSets
+        - AddLockOption
+        - OwnershipTransferred
+        - RemoveBgImage
+        - RemoveFavCoin
+        - RemoveImageSet
+        - RemoveLockOption
+        - SetNonTokenPriceMultiplier
+        - SetTokenPriceMultiplier
+      abis:
+        - name: QNFTSettings
+          file: ./abis/QNFTSettings.json
+      eventHandlers:
+        - event: AddBgImages(indexed address,string[])
+          handler: handleAddBgImages
+        - event: AddFavCoins(indexed address,uint256[],string[])
+          handler: handleAddFavCoins
+        - event: AddImageSets(indexed address,uint256[],address[],string[])
+          handler: handleAddImageSets
+        - event: AddLockOption(indexed address,uint256,uint256,indexed uint256,uint256)
+          handler: handleAddLockOption
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: RemoveBgImage(indexed address,indexed uint256)
+          handler: handleRemoveBgImage
+        - event: RemoveFavCoin(indexed address,uint256)
+          handler: handleRemoveFavCoin
+        - event: RemoveImageSet(indexed address,indexed uint256)
+          handler: handleRemoveImageSet
+        - event: RemoveLockOption(indexed address,indexed uint256)
+          handler: handleRemoveLockOption
+        - event: SetNonTokenPriceMultiplier(indexed address,uint256)
+          handler: handleSetNonTokenPriceMultiplier
+        - event: SetTokenPriceMultiplier(indexed address,uint256)
+          handler: handleSetTokenPriceMultiplier
+      file: ./src/QNFTSettingsMapping.ts
